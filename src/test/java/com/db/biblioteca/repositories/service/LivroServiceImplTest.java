@@ -76,4 +76,29 @@ class LivroServiceImplTest {
 
         assertEquals(livrosComMesmoTitulo, resposta);
     }
+
+    @Test
+    @DisplayName("Deve ser possível buscar livros por autor em uma biblioteca")
+    void deveRetonarLivrosPorAutorNaBiblioteca() {
+        List<Livro> livrosComMesmoAutor = List.of(this.livro);
+
+        when(this.livroRepository.findAllByAutorAndBibliotecaId(this.livro.getAutor(), 1L))
+                .thenReturn(livrosComMesmoAutor);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(this.livro.getAutor(), 1L);
+
+        assertEquals(livrosComMesmoAutor, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com autor na biblioteca")
+    void deveRetonarListaVaziaAoBuscarLivrosPorAutorNaBiblioteca() {
+        List<Livro> livrosComMesmoAutor = List.of();
+        when(this.livroRepository.findAllByAutorAndBibliotecaId(this.livro.getAutor(), 1L))
+                .thenReturn(livrosComMesmoAutor);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(this.livro.getAutor(), 1L);
+
+        assertEquals(livrosComMesmoAutor, resposta);
+    }
 }

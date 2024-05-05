@@ -9,7 +9,7 @@ public interface LivroService {
 
     List<Livro> buscarLivrosPorTituloEBibliotecaId(String tutulo, Long bibliotecaId);
 
-    // List<Livro> buscarLivrosPorAutorNaBiblioteca(Long bibliotecaId, String tutulo);
+    List<Livro> buscarLivrosPorAutorEBibliotecaId(String autor, Long bibliotecaId);
 
     // List<Livro> buscarLivrosPorAnoPublicacaoNaBiblioteca(Long bibliotecaId, String tutulo);
 }

@@ -25,4 +25,9 @@ public class LivroServiceImpl implements LivroService{
        return this.livroRepository.findAllByTituloAndBibliotecaId(tutulo, bibliotecaId);
     }
 
+	@Override
+	public List<Livro> buscarLivrosPorAutorEBibliotecaId(String autor, Long bibliotecaId) {
+		return this.livroRepository.findAllByAutorAndBibliotecaId(autor, bibliotecaId);
+	}
+
 }
