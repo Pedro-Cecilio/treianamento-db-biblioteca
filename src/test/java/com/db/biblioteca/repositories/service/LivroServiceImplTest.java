@@ -70,10 +70,11 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com titulo na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorTituloNaBiblioteca() {
         List<Livro> livrosComMesmoTitulo = List.of();
-        when(this.livroRepository.findAllByTituloAndBibliotecaId("Titulo Inexistente", 1L))
+        String titulo = "Titulo Inexistente";
+        when(this.livroRepository.findAllByTituloAndBibliotecaId(titulo, 1L))
                 .thenReturn(livrosComMesmoTitulo);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId("Titulo Inexistente", 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(titulo, 1L);
 
         assertEquals(livrosComMesmoTitulo, resposta);
     }
@@ -96,10 +97,12 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com autor na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorAutorNaBiblioteca() {
         List<Livro> livrosComMesmoAutor = List.of();
-        when(this.livroRepository.findAllByAutorAndBibliotecaId("Autor inexistente", 1L))
+        String autor = "Autor inexistente";
+
+        when(this.livroRepository.findAllByAutorAndBibliotecaId(autor, 1L))
                 .thenReturn(livrosComMesmoAutor);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId("Autor inexistente", 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(autor, 1L);
 
         assertEquals(livrosComMesmoAutor, resposta);
     }
@@ -123,11 +126,12 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com ano de publicação na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorAnoDePublicacaoNaBiblioteca() {
         List<Livro> livrosComMesmoAnoDePublicacao = List.of();
-        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(0, 1L))
+        Integer anoDePublicacao = 0;
+        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(anoDePublicacao, 1L))
                 .thenReturn(livrosComMesmoAnoDePublicacao);
 
         List<Livro> resposta = this.livroService
-                .buscarLivrosPorAnoPublicacaoEBibliotecaId(0, 1L);
+                .buscarLivrosPorAnoPublicacaoEBibliotecaId(anoDePublicacao, 1L);
 
         assertEquals(livrosComMesmoAnoDePublicacao, resposta);
     }
