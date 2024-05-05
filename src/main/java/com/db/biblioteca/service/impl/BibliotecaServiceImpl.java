@@ -56,4 +56,10 @@ public class BibliotecaServiceImpl implements BibliotecaService {
 
         return this.bibliotecaRepository.save(biblioteca);
     }
+
+    @Override
+    public void removerBibliotecaPorId(Long bibliotecaId) {
+        Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
+        this.bibliotecaRepository.delete(biblioteca);
+    }
 }

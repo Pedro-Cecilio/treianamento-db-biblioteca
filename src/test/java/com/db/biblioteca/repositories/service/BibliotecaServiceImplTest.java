@@ -128,4 +128,21 @@ class BibliotecaServiceImplTest {
     void deveFalharAoTentarCriarBiblioteca() {
         assertThrows(IllegalArgumentException.class, ()-> this.bibliotecaService.criarBiblioteca(null));      
     }
+
+    @Test
+    @DisplayName("Deve ser possível remover uma biblioteca")
+    void deveRemoverBibliotecaCorretamente() {
+        when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
+
+        assertDoesNotThrow(()-> this.bibliotecaService.removerBibliotecaPorId(1L));
+
+        verify(this.bibliotecaRepository).delete(this.biblioteca);
+    }
+    @Test
+    @DisplayName("Deve falhar ao tentar remover uma biblioteca inexistente")
+    void deveFalharAoTentarRemoverBiblioteca() {
+        when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, ()-> this.bibliotecaService.removerBibliotecaPorId(1L));
+    }
 }
