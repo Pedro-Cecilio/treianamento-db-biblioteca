@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 import com.db.biblioteca.model.Biblioteca;
 import com.db.biblioteca.model.Livro;
 import com.db.biblioteca.repositories.BibliotecaRepository;
+import com.db.biblioteca.service.BibliotecaService;
 
 @Service
-public class BibliotecaServiceImpl {
+public class BibliotecaServiceImpl implements BibliotecaService {
 
     private BibliotecaRepository bibliotecaRepository;
     private LivroServiceImpl livroService;
