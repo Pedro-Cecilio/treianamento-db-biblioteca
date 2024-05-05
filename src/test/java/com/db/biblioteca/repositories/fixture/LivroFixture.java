@@ -11,6 +11,18 @@ public class LivroFixture {
         return new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1954, null);
     }
     
+    public static List<Livro> gerarListaDeLivros() {
+        List<Livro> listaDeLivros = new ArrayList<>();
+
+        listaDeLivros.add(new Livro("1984", "George Orwell", 1949, null));
+        listaDeLivros.add(new Livro("Admirável Mundo Novo", "Aldous Huxley", 1932, null));
+        listaDeLivros.add(new Livro("Dom Quixote", "Miguel de Cervantes", 1605, null));
+        listaDeLivros.add(new Livro("Crime e Castigo", "Fiódor Dostoiévski", 1866, null));
+
+        return listaDeLivros;
+    }
+
+
     public static List<Livro> gerarListaDeLivrosMesmoTitulo() {
         String titulo = "O Senhor dos Anéis";
         List<Livro> listaDeLivros = new ArrayList<>();

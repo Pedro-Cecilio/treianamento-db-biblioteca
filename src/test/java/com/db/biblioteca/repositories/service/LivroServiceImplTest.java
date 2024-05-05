@@ -57,10 +57,11 @@ class LivroServiceImplTest {
     @DisplayName("Deve ser possível buscar livros por titulo em uma biblioteca")
     void deveRetonarLivrosPorTituloNaBiblioteca() {
         List<Livro> livrosComMesmoTitulo = LivroFixture.gerarListaDeLivrosMesmoTitulo();
-        when(this.livroRepository.findAllByTituloAndBibliotecaId(this.livro.getTitulo(), 1L))
+        String titulo = livrosComMesmoTitulo.get(0).getTitulo();
+        when(this.livroRepository.findAllByTituloAndBibliotecaId(titulo, 1L))
                 .thenReturn(livrosComMesmoTitulo);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(this.livro.getTitulo(), 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(titulo, 1L);
 
         assertEquals(livrosComMesmoTitulo, resposta);
     }
@@ -69,10 +70,10 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com titulo na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorTituloNaBiblioteca() {
         List<Livro> livrosComMesmoTitulo = List.of();
-        when(this.livroRepository.findAllByTituloAndBibliotecaId(this.livro.getTitulo(), 1L))
+        when(this.livroRepository.findAllByTituloAndBibliotecaId("Titulo Inexistente", 1L))
                 .thenReturn(livrosComMesmoTitulo);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(this.livro.getTitulo(), 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId("Titulo Inexistente", 1L);
 
         assertEquals(livrosComMesmoTitulo, resposta);
     }
@@ -81,11 +82,12 @@ class LivroServiceImplTest {
     @DisplayName("Deve ser possível buscar livros por autor em uma biblioteca")
     void deveRetonarLivrosPorAutorNaBiblioteca() {
         List<Livro> livrosComMesmoAutor = LivroFixture.gerarListaDeLivrosMesmoAutor();
+        String autor = livrosComMesmoAutor.get(0).getAutor();
 
-        when(this.livroRepository.findAllByAutorAndBibliotecaId(this.livro.getAutor(), 1L))
+        when(this.livroRepository.findAllByAutorAndBibliotecaId(autor, 1L))
                 .thenReturn(livrosComMesmoAutor);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(this.livro.getAutor(), 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(autor, 1L);
 
         assertEquals(livrosComMesmoAutor, resposta);
     }
@@ -94,10 +96,10 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com autor na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorAutorNaBiblioteca() {
         List<Livro> livrosComMesmoAutor = List.of();
-        when(this.livroRepository.findAllByAutorAndBibliotecaId(this.livro.getAutor(), 1L))
+        when(this.livroRepository.findAllByAutorAndBibliotecaId("Autor inexistente", 1L))
                 .thenReturn(livrosComMesmoAutor);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(this.livro.getAutor(), 1L);
+        List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId("Autor inexistente", 1L);
 
         assertEquals(livrosComMesmoAutor, resposta);
     }
@@ -106,11 +108,13 @@ class LivroServiceImplTest {
     @DisplayName("Deve ser possível buscar livros por ano de publicação em uma biblioteca")
     void deveRetonarLivrosPorAnoDePublicacaoNaBiblioteca() {
         List<Livro> livrosComMesmoAnoDePublicacao = LivroFixture.gerarListaDeLivrosMesmoAnoDePublicacao();
+        Integer anoDePublicacao = livrosComMesmoAnoDePublicacao.get(0).getAnoDePublicacao();
 
-        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(this.livro.getAnoDePublicacao(), 1L))
+        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(anoDePublicacao, 1L))
                 .thenReturn(livrosComMesmoAnoDePublicacao);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorAnoPublicacaoEBibliotecaId(this.livro.getAnoDePublicacao(), 1L);
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAnoPublicacaoEBibliotecaId(anoDePublicacao, 1L);
 
         assertEquals(livrosComMesmoAnoDePublicacao, resposta);
     }
@@ -119,11 +123,126 @@ class LivroServiceImplTest {
     @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com ano de publicação na biblioteca")
     void deveRetonarListaVaziaAoBuscarLivrosPorAnoDePublicacaoNaBiblioteca() {
         List<Livro> livrosComMesmoAnoDePublicacao = List.of();
-        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(this.livro.getAnoDePublicacao(), 1L))
+        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(0, 1L))
                 .thenReturn(livrosComMesmoAnoDePublicacao);
 
-        List<Livro> resposta = this.livroService.buscarLivrosPorAnoPublicacaoEBibliotecaId(this.livro.getAnoDePublicacao(), 1L);
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAnoPublicacaoEBibliotecaId(0, 1L);
 
         assertEquals(livrosComMesmoAnoDePublicacao, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve ser possível buscar todos livros da biblioteca")
+    void deveRetonarTodosLivrosDaBiblioteca() {
+        List<Livro> listaDeLivros = LivroFixture.gerarListaDeLivros();
+
+        when(this.livroRepository.findAllByBibliotecaId(1L))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarTodosLivrosPorBibliotecaId(1L);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros na biblioteca")
+    void deveRetonarListaVaziaAoBuscarLivrosDaBiblioteca() {
+        List<Livro> listaDeLivros = List.of();
+        when(this.livroRepository.findAllByBibliotecaId(1L))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarTodosLivrosPorBibliotecaId(1L);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve ser possível buscar todos livros com mesmo titulo, em todas bibliotecas")
+    void deveRetonarTodosLivrosComMesmoTitulo() {
+        List<Livro> listaDeLivros = LivroFixture.gerarListaDeLivrosMesmoTitulo();
+        String titulo = listaDeLivros.get(0).getTitulo();
+        when(this.livroRepository.findAllByTitulo(titulo))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorTitulo(titulo);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com titulo informado")
+    void deveRetonarListaVaziaAoBuscarLivrosPorTitulo() {
+        List<Livro> listaDeLivros = List.of();
+        String titulo = "Titulo inexistente";
+
+        when(this.livroRepository.findAllByTitulo(titulo))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorTitulo(titulo);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve ser possível buscar todos livros com mesmo autor, em todas bibliotecas")
+    void deveRetonarTodosLivrosComMesmoAutor() {
+        List<Livro> listaDeLivros = LivroFixture.gerarListaDeLivrosMesmoAutor();
+        String autor = listaDeLivros.get(0).getAutor();
+        when(this.livroRepository.findAllByAutor(autor))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAutor(autor);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com autor informado")
+    void deveRetonarListaVaziaAoBuscarLivrosPorAutor() {
+        List<Livro> listaDeLivros = List.of();
+        String autor = "Autor inexistente";
+
+        when(this.livroRepository.findAllByAutor(autor))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAutor(autor);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve ser possível buscar todos livros com mesmo ano de publicação, em todas bibliotecas")
+    void deveRetonarTodosLivrosComMesmoAnoDePublicacao() {
+        List<Livro> listaDeLivros = LivroFixture.gerarListaDeLivrosMesmoAnoDePublicacao();
+        Integer anoDePublicacao = listaDeLivros.get(0).getAnoDePublicacao();
+        when(this.livroRepository.findAllByAnoDePublicacao(anoDePublicacao))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAnoDePublicacao(anoDePublicacao);
+
+        assertEquals(listaDeLivros, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com ano de publicação informado")
+    void deveRetonarListaVaziaAoBuscarLivrosPorAnoDePublicacao() {
+        List<Livro> listaDeLivros = List.of();
+        Integer anoDePublicacao = 0;
+
+        when(this.livroRepository.findAllByAnoDePublicacao(anoDePublicacao))
+                .thenReturn(listaDeLivros);
+
+        List<Livro> resposta = this.livroService
+                .buscarLivrosPorAnoDePublicacao(anoDePublicacao);
+
+        assertEquals(listaDeLivros, resposta);
     }
 }
