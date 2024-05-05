@@ -49,22 +49,22 @@ class BibliotecaServiceImplTest {
 
     @Test
     @DisplayName("Deve ser possível adicionar um livro")
-    void deveAdicionarLivroCorretamente() {
+    void deveadicionarLivroNaBibliotecaCorretamente() {
         when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertTrue(this.bibliotecaService.adicionarLivro(1L, 1L));
+        assertTrue(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, 1L));
     }
 
     @Test
     @DisplayName("Deve ser possível adicionar um livro")
-    void deveFalharAoAdicionarLivroJaExistente() {
+    void deveFalharAoadicionarLivroNaBibliotecaJaExistente() {
         this.biblioteca.getLivros().add(livro);
 
         when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertFalse(this.bibliotecaService.adicionarLivro(1L, 1L));
+        assertFalse(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, 1L));
     }
 
     @Test

@@ -20,7 +20,7 @@ public class BibliotecaServiceImpl implements BibliotecaService {
         this.livroService = livroService;
     }
 
-    public boolean adicionarLivro(Long bibliotecaId, Long livroId) {
+    public boolean adicionarLivroNaBiblioteca(Long bibliotecaId, Long livroId) {
         Livro livro = this.livroService.buscarLivroPorId(livroId);
         Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
         if (!verificarSeLivroPodeSerAdicionadoNaBiblioteca(biblioteca, livro))

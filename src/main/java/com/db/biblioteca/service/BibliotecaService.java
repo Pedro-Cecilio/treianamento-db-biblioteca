@@ -4,7 +4,7 @@ import com.db.biblioteca.model.Biblioteca;
 import com.db.biblioteca.model.Livro;
 
 public interface BibliotecaService {
-    boolean adicionarLivro(Long bibliotecaId, Long livroId);
+    boolean adicionarLivroNaBiblioteca(Long bibliotecaId, Long livroId);
 
     Biblioteca buscarBibliotecaPorId(Long id);
 

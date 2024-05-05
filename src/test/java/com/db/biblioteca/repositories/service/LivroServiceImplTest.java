@@ -1,9 +1,11 @@
 package com.db.biblioteca.repositories.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -51,4 +53,27 @@ class LivroServiceImplTest {
         assertThrows(NoSuchElementException.class, () -> this.livroService.buscarLivroPorId(1L));
     }
 
+    @Test
+    @DisplayName("Deve ser possível buscar livros por titulo em uma biblioteca")
+    void deveRetonarLivrosPorTituloNaBiblioteca() {
+        List<Livro> livrosComMesmoTitulo = List.of(this.livro);
+        when(this.livroRepository.findAllByTituloAndBibliotecaId(this.livro.getTitulo(), 1L))
+                .thenReturn(livrosComMesmoTitulo);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(this.livro.getTitulo(), 1L);
+
+        assertEquals(livrosComMesmoTitulo, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com titulo na biblioteca")
+    void deveRetonarListaVaziaAoBuscarLivrosPorTituloNaBiblioteca() {
+        List<Livro> livrosComMesmoTitulo = List.of();
+        when(this.livroRepository.findAllByTituloAndBibliotecaId(this.livro.getTitulo(), 1L))
+                .thenReturn(livrosComMesmoTitulo);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorTituloEBibliotecaId(this.livro.getTitulo(), 1L);
+
+        assertEquals(livrosComMesmoTitulo, resposta);
+    }
 }
