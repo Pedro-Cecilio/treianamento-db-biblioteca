@@ -1,12 +1,14 @@
 package com.db.biblioteca.repositories.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -144,5 +146,26 @@ class BibliotecaServiceImplTest {
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, ()-> this.bibliotecaService.removerBibliotecaPorId(1L));
+    }
+
+    @Test
+    @DisplayName("Deve ser possível listar todas bibliotecas")
+    void deveListarTodasBibliotecasCorretamente() {
+        List<Biblioteca> listaBibliotecas = BibliotecaFixture.gerarListaDeBibliotecas();
+        when(this.bibliotecaRepository.findAll()).thenReturn(listaBibliotecas);
+
+        List<Biblioteca> resposta = this.bibliotecaService.buscarTodasBibliotecas();
+
+        assertEquals(listaBibliotecas, resposta);
+    }
+    @Test
+    @DisplayName("Deve retornar lista vazia ao listar todas bibliotecas")
+    void deveRetornarListaVaziaAoListarTodasBibliotecasCorretamente() {
+        List<Biblioteca> listaBibliotecas = List.of();
+        when(this.bibliotecaRepository.findAll()).thenReturn(listaBibliotecas);
+
+        List<Biblioteca> resposta = this.bibliotecaService.buscarTodasBibliotecas();
+
+        assertEquals(listaBibliotecas, resposta);
     }
 }

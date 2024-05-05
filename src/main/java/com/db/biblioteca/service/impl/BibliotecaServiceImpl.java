@@ -1,5 +1,6 @@
 package com.db.biblioteca.service.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
@@ -61,5 +62,10 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     public void removerBibliotecaPorId(Long bibliotecaId) {
         Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
         this.bibliotecaRepository.delete(biblioteca);
+    }
+
+    @Override
+    public List<Biblioteca> buscarTodasBibliotecas() {
+        return this.bibliotecaRepository.findAll();
     }
 }
