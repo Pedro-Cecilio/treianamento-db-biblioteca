@@ -48,4 +48,12 @@ public class BibliotecaServiceImpl implements BibliotecaService {
         this.bibliotecaRepository.save(biblioteca);
         return true;
     }
+
+    @Override
+    public Biblioteca criarBiblioteca(Biblioteca biblioteca) {
+        if (biblioteca == null)
+            throw new IllegalArgumentException("Biblioteca deve ser informada");
+
+        return this.bibliotecaRepository.save(biblioteca);
+    }
 }

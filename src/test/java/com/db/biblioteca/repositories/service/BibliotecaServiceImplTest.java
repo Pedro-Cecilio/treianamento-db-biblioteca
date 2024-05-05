@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.NoSuchElementException;
@@ -87,6 +88,7 @@ class BibliotecaServiceImplTest {
         this.biblioteca.getLivros().add(livro);
         assertTrue(this.bibliotecaService.verificarSeBibliotecaContemLivro(biblioteca, livro));
     }
+
     @Test
     @DisplayName("Deve retornar false ao verificar se biblioteca contém livro")
     void deveRetornarFalseAoVerificarSeLivroPodeSerAdicionado() {
@@ -110,5 +112,20 @@ class BibliotecaServiceImplTest {
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
 
         assertFalse(this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
+    }
+
+    @Test
+    @DisplayName("Deve ser possível criar uma biblioteca corretamente")
+    void deveCriarBibliotecaCorretamente() {
+        when(this.bibliotecaRepository.save(biblioteca)).thenReturn(this.biblioteca);
+
+        this.bibliotecaService.criarBiblioteca(biblioteca);
+
+        verify(this.bibliotecaRepository).save(this.biblioteca);
+    }
+    @Test
+    @DisplayName("Deve falhar ao tentar criar um biblioteca nula")
+    void deveFalharAoTentarCriarBiblioteca() {
+        assertThrows(IllegalArgumentException.class, ()-> this.bibliotecaService.criarBiblioteca(null));      
     }
 }

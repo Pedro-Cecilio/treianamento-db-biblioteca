@@ -11,6 +11,6 @@ public interface BibliotecaService {
     boolean verificarSeBibliotecaContemLivro(Biblioteca biblioteca, Livro livro);
     boolean removerLivroDaBiblioteca(Long bibliotecaId, Long livroId);
 
-    // boolean adicionarBiblioteca(Biblioteca biblioteca);
+    Biblioteca criarBiblioteca(Biblioteca biblioteca);
     // boolean removerBibliotecaPorId(Long bibliotecaId);
 }
