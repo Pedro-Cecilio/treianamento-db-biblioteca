@@ -2,6 +2,7 @@ package com.db.biblioteca.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Biblioteca {
     private String nome;
 
     @OneToMany(mappedBy = "biblioteca", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Livro> livros;
+    private List<Livro> livros = new ArrayList<>();
 
     protected Biblioteca() {
     }

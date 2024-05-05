@@ -1,9 +1,11 @@
 package com.db.biblioteca.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "livros")
+@EqualsAndHashCode(exclude = {"id", "biblioteca"})
 public class Livro {
 
     @Id
