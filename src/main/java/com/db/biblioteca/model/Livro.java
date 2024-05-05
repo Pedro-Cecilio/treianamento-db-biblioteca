@@ -53,4 +53,7 @@ public class Livro {
     public Biblioteca getBiblioteca() {
         return biblioteca;
     }
+    public void setBiblioteca(Biblioteca biblioteca) {
+        this.biblioteca = biblioteca;
+    }
 }

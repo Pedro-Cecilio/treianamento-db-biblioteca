@@ -18,8 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.db.biblioteca.model.Biblioteca;
 import com.db.biblioteca.model.Livro;
 import com.db.biblioteca.repositories.LivroRepository;
+import com.db.biblioteca.repositories.fixture.BibliotecaFixture;
 import com.db.biblioteca.repositories.fixture.LivroFixture;
 import com.db.biblioteca.service.impl.LivroServiceImpl;
 
@@ -36,7 +38,8 @@ class LivroServiceImplTest {
 
     @BeforeEach
     void configurar() {
-        this.livro = LivroFixture.gerarLivro();
+        Biblioteca biblioteca = BibliotecaFixture.gerarBiblioteca();
+        this.livro = LivroFixture.gerarLivro(biblioteca);
     }
 
     @Test

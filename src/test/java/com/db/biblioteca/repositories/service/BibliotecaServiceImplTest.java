@@ -43,28 +43,26 @@ class BibliotecaServiceImplTest {
 
     @BeforeEach
     void configurar() {
-        this.livro = LivroFixture.gerarLivro();
         this.biblioteca = BibliotecaFixture.gerarBiblioteca();
+        this.livro = LivroFixture.gerarLivro(this.biblioteca);
     }
 
     @Test
     @DisplayName("Deve ser possível adicionar um livro")
     void deveadicionarLivroNaBibliotecaCorretamente() {
-        when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertTrue(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, 1L));
+        assertTrue(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
     }
 
     @Test
-    @DisplayName("Deve ser possível adicionar um livro")
+    @DisplayName("Deve falhar ao adicionar um livro quando ele já estiver na biblioteca")
     void deveFalharAoadicionarLivroNaBibliotecaJaExistente() {
         this.biblioteca.getLivros().add(livro);
 
-        when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertFalse(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, 1L));
+        assertFalse(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
     }
 
     @Test
@@ -84,15 +82,33 @@ class BibliotecaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve retornar true ao verificar se livro pode ser adicionado na biblioteca")
+    @DisplayName("Deve retornar true ao verificar se biblioteca contém um livro")
     void deveRetornarTrueAoVerificarSeLivroPodeSerAdicionado() {
-        assertTrue(this.bibliotecaService.verificarSeLivroPodeSerAdicionadoNaBiblioteca(biblioteca, livro));
+        this.biblioteca.getLivros().add(livro);
+        assertTrue(this.bibliotecaService.verificarSeBibliotecaContemLivro(biblioteca, livro));
     }
     @Test
-    @DisplayName("Deve retornar false ao verificar se livro pode ser adicionado na biblioteca")
+    @DisplayName("Deve retornar false ao verificar se biblioteca contém livro")
     void deveRetornarFalseAoVerificarSeLivroPodeSerAdicionado() {
-        this.biblioteca.getLivros().add(livro);
+        assertFalse(this.bibliotecaService.verificarSeBibliotecaContemLivro(biblioteca, livro));
+    }
 
-        assertFalse(this.bibliotecaService.verificarSeLivroPodeSerAdicionadoNaBiblioteca(biblioteca, livro));
+    @Test
+    @DisplayName("Deve ser possível remover um livro da biblioteca")
+    void deveRemoverLivroDaBibliotecaCorretamente() {
+        this.biblioteca.getLivros().add(livro);
+        when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
+        when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
+
+        assertTrue(this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
+    }
+
+    @Test
+    @DisplayName("Não deve ser possível remover um livro da biblioteca quando biblioteca não possuir o livro informado")
+    void deveFalharAoRemoverLivroDaBiblioteca() {
+        when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
+        when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
+
+        assertFalse(this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
     }
 }

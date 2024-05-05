@@ -3,12 +3,13 @@ package com.db.biblioteca.repositories.fixture;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.db.biblioteca.model.Biblioteca;
 import com.db.biblioteca.model.Livro;
 
 public class LivroFixture {
     
-    public static Livro gerarLivro(){
-        return new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1954, null);
+    public static Livro gerarLivro(Biblioteca biblioteca){
+        return new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1954, biblioteca);
     }
     
     public static List<Livro> gerarListaDeLivros() {

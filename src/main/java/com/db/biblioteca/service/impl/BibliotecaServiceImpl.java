@@ -20,11 +20,11 @@ public class BibliotecaServiceImpl implements BibliotecaService {
         this.livroService = livroService;
     }
 
-    public boolean adicionarLivroNaBiblioteca(Long bibliotecaId, Long livroId) {
-        Livro livro = this.livroService.buscarLivroPorId(livroId);
+    public boolean adicionarLivroNaBiblioteca(Long bibliotecaId, Livro livro) {
         Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
-        if (!verificarSeLivroPodeSerAdicionadoNaBiblioteca(biblioteca, livro))
+        if (livro == null || verificarSeBibliotecaContemLivro(biblioteca, livro))
             return false;
+        livro.setBiblioteca(biblioteca);
         return biblioteca.getLivros().add(livro);
     }
 
@@ -33,8 +33,19 @@ public class BibliotecaServiceImpl implements BibliotecaService {
                 .orElseThrow(() -> new NoSuchElementException("Biblioteca não encontrada."));
     }
 
-    public boolean verificarSeLivroPodeSerAdicionadoNaBiblioteca(Biblioteca biblioteca, Livro livro) {
-        boolean possuiLivro = biblioteca.getLivros().contains(livro);
-        return !possuiLivro;
+    @Override
+    public boolean verificarSeBibliotecaContemLivro(Biblioteca biblioteca, Livro livro) {
+        return biblioteca.getLivros().contains(livro);
+    }
+
+    @Override
+    public boolean removerLivroDaBiblioteca(Long bibliotecaId, Long livroId) {
+        Livro livro = this.livroService.buscarLivroPorId(livroId);
+        Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
+        if (!verificarSeBibliotecaContemLivro(biblioteca, livro))
+            return false;
+        biblioteca.getLivros().remove(livro);
+        this.bibliotecaRepository.save(biblioteca);
+        return true;
     }
 }
