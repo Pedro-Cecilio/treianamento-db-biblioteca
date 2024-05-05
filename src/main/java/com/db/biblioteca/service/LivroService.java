@@ -11,5 +11,5 @@ public interface LivroService {
 
     List<Livro> buscarLivrosPorAutorEBibliotecaId(String autor, Long bibliotecaId);
 
-    // List<Livro> buscarLivrosPorAnoPublicacaoNaBiblioteca(Long bibliotecaId, String tutulo);
+    List<Livro> buscarLivrosPorAnoPublicacaoEBibliotecaId(Integer anoPublicacao, Long bibliotecaId);
 }

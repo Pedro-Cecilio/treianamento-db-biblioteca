@@ -56,7 +56,7 @@ class LivroServiceImplTest {
     @Test
     @DisplayName("Deve ser possível buscar livros por titulo em uma biblioteca")
     void deveRetonarLivrosPorTituloNaBiblioteca() {
-        List<Livro> livrosComMesmoTitulo = List.of(this.livro);
+        List<Livro> livrosComMesmoTitulo = LivroFixture.gerarListaDeLivrosMesmoTitulo();
         when(this.livroRepository.findAllByTituloAndBibliotecaId(this.livro.getTitulo(), 1L))
                 .thenReturn(livrosComMesmoTitulo);
 
@@ -80,7 +80,7 @@ class LivroServiceImplTest {
     @Test
     @DisplayName("Deve ser possível buscar livros por autor em uma biblioteca")
     void deveRetonarLivrosPorAutorNaBiblioteca() {
-        List<Livro> livrosComMesmoAutor = List.of(this.livro);
+        List<Livro> livrosComMesmoAutor = LivroFixture.gerarListaDeLivrosMesmoAutor();
 
         when(this.livroRepository.findAllByAutorAndBibliotecaId(this.livro.getAutor(), 1L))
                 .thenReturn(livrosComMesmoAutor);
@@ -100,5 +100,30 @@ class LivroServiceImplTest {
         List<Livro> resposta = this.livroService.buscarLivrosPorAutorEBibliotecaId(this.livro.getAutor(), 1L);
 
         assertEquals(livrosComMesmoAutor, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve ser possível buscar livros por ano de publicação em uma biblioteca")
+    void deveRetonarLivrosPorAnoDePublicacaoNaBiblioteca() {
+        List<Livro> livrosComMesmoAnoDePublicacao = LivroFixture.gerarListaDeLivrosMesmoAnoDePublicacao();
+
+        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(this.livro.getAnoDePublicacao(), 1L))
+                .thenReturn(livrosComMesmoAnoDePublicacao);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorAnoPublicacaoEBibliotecaId(this.livro.getAnoDePublicacao(), 1L);
+
+        assertEquals(livrosComMesmoAnoDePublicacao, resposta);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista vazia ao não encontrar livros com ano de publicação na biblioteca")
+    void deveRetonarListaVaziaAoBuscarLivrosPorAnoDePublicacaoNaBiblioteca() {
+        List<Livro> livrosComMesmoAnoDePublicacao = List.of();
+        when(this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(this.livro.getAnoDePublicacao(), 1L))
+                .thenReturn(livrosComMesmoAnoDePublicacao);
+
+        List<Livro> resposta = this.livroService.buscarLivrosPorAnoPublicacaoEBibliotecaId(this.livro.getAnoDePublicacao(), 1L);
+
+        assertEquals(livrosComMesmoAnoDePublicacao, resposta);
     }
 }

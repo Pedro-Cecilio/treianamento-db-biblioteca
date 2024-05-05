@@ -10,24 +10,30 @@ import com.db.biblioteca.repositories.LivroRepository;
 import com.db.biblioteca.service.LivroService;
 
 @Service
-public class LivroServiceImpl implements LivroService{
+public class LivroServiceImpl implements LivroService {
     private LivroRepository livroRepository;
+
     public LivroServiceImpl(LivroRepository livroRepository) {
         this.livroRepository = livroRepository;
     }
 
     public Livro buscarLivroPorId(Long id) {
-        return this.livroRepository.findById(id).orElseThrow(()->new NoSuchElementException("Livro não encontrado."));
+        return this.livroRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Livro não encontrado."));
     }
 
     @Override
     public List<Livro> buscarLivrosPorTituloEBibliotecaId(String tutulo, Long bibliotecaId) {
-       return this.livroRepository.findAllByTituloAndBibliotecaId(tutulo, bibliotecaId);
+        return this.livroRepository.findAllByTituloAndBibliotecaId(tutulo, bibliotecaId);
     }
 
-	@Override
-	public List<Livro> buscarLivrosPorAutorEBibliotecaId(String autor, Long bibliotecaId) {
-		return this.livroRepository.findAllByAutorAndBibliotecaId(autor, bibliotecaId);
-	}
+    @Override
+    public List<Livro> buscarLivrosPorAutorEBibliotecaId(String autor, Long bibliotecaId) {
+        return this.livroRepository.findAllByAutorAndBibliotecaId(autor, bibliotecaId);
+    }
+
+    @Override
+    public List<Livro> buscarLivrosPorAnoPublicacaoEBibliotecaId(Integer anoPublicacao, Long bibliotecaId) {
+        return this.livroRepository.findAllByAnoDePublicacaoAndBibliotecaId(anoPublicacao, bibliotecaId);
+    }
 
 }
