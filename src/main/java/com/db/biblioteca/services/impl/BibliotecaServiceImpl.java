@@ -25,12 +25,12 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     @Override
     public void adicionarLivroNaBiblioteca(Long bibliotecaId, Livro livro) {
         Biblioteca biblioteca = buscarBibliotecaPorId(bibliotecaId);
-        List<Livro> livros = biblioteca.getLivros();
-        if (livros.contains(livro)) {
+
+        if (verificarSeBibliotecaContemLivro(biblioteca, livro)) {
             throw new IllegalArgumentException("Já possui esse livro na biblioteca");
         }
         livro.setBiblioteca(biblioteca);
-        livros.add(livro);
+        biblioteca.getLivros().add(livro);
         this.bibliotecaRepository.save(biblioteca);
     }
 
