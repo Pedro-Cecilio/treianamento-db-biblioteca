@@ -10,6 +10,7 @@ import com.db.biblioteca.model.Livro;
 import com.db.biblioteca.repositories.BibliotecaRepository;
 import com.db.biblioteca.service.BibliotecaService;
 
+
 @Service
 public class BibliotecaServiceImpl implements BibliotecaService {
 
@@ -21,12 +22,13 @@ public class BibliotecaServiceImpl implements BibliotecaService {
         this.livroService = livroService;
     }
 
-    public boolean adicionarLivroNaBiblioteca(Long bibliotecaId, Livro livro) {
+    public void adicionarLivroNaBiblioteca(Long bibliotecaId, Livro livro) {
         Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
-        if (livro == null || verificarSeBibliotecaContemLivro(biblioteca, livro))
-            return false;
+        if (verificarSeBibliotecaContemLivro(biblioteca, livro))
+            throw new IllegalArgumentException("Biblioteca já possui esse livro.");
         livro.setBiblioteca(biblioteca);
-        return biblioteca.getLivros().add(livro);
+        biblioteca.getLivros().add(livro);
+        this.bibliotecaRepository.save(biblioteca);
     }
 
     public Biblioteca buscarBibliotecaPorId(Long id) {
@@ -40,14 +42,14 @@ public class BibliotecaServiceImpl implements BibliotecaService {
     }
 
     @Override
-    public boolean removerLivroDaBiblioteca(Long bibliotecaId, Long livroId) {
+    public void removerLivroDaBiblioteca(Long bibliotecaId, Long livroId) {
         Livro livro = this.livroService.buscarLivroPorId(livroId);
         Biblioteca biblioteca = this.buscarBibliotecaPorId(bibliotecaId);
         if (!verificarSeBibliotecaContemLivro(biblioteca, livro))
-            return false;
+            throw new NoSuchElementException("Biblioteca informada não possui esse livro");
         biblioteca.getLivros().remove(livro);
+        
         this.bibliotecaRepository.save(biblioteca);
-        return true;
     }
 
     @Override

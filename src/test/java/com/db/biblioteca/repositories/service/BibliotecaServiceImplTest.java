@@ -55,7 +55,7 @@ class BibliotecaServiceImplTest {
     void deveadicionarLivroNaBibliotecaCorretamente() {
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertTrue(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
+        assertDoesNotThrow(() -> this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
     }
 
     @Test
@@ -65,7 +65,8 @@ class BibliotecaServiceImplTest {
 
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
-        assertFalse(this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
+        assertThrows(IllegalArgumentException.class,
+                () -> this.bibliotecaService.adicionarLivroNaBiblioteca(1L, this.livro));
     }
 
     @Test
@@ -104,7 +105,8 @@ class BibliotecaServiceImplTest {
         when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
 
-        assertTrue(this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
+        assertDoesNotThrow(() -> this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
+        verify(this.bibliotecaRepository).save(this.biblioteca);
     }
 
     @Test
@@ -113,7 +115,7 @@ class BibliotecaServiceImplTest {
         when(this.livroService.buscarLivroPorId(1L)).thenReturn(livro);
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
 
-        assertFalse(this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
+        assertThrows(NoSuchElementException.class, () -> this.bibliotecaService.removerLivroDaBiblioteca(1L, 1L));
     }
 
     @Test
@@ -125,10 +127,11 @@ class BibliotecaServiceImplTest {
 
         verify(this.bibliotecaRepository).save(this.biblioteca);
     }
+
     @Test
     @DisplayName("Deve falhar ao tentar criar um biblioteca nula")
     void deveFalharAoTentarCriarBiblioteca() {
-        assertThrows(IllegalArgumentException.class, ()-> this.bibliotecaService.criarBiblioteca(null));      
+        assertThrows(IllegalArgumentException.class, () -> this.bibliotecaService.criarBiblioteca(null));
     }
 
     @Test
@@ -136,16 +139,17 @@ class BibliotecaServiceImplTest {
     void deveRemoverBibliotecaCorretamente() {
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.of(this.biblioteca));
 
-        assertDoesNotThrow(()-> this.bibliotecaService.removerBibliotecaPorId(1L));
+        assertDoesNotThrow(() -> this.bibliotecaService.removerBibliotecaPorId(1L));
 
         verify(this.bibliotecaRepository).delete(this.biblioteca);
     }
+
     @Test
     @DisplayName("Deve falhar ao tentar remover uma biblioteca inexistente")
     void deveFalharAoTentarRemoverBiblioteca() {
         when(this.bibliotecaRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, ()-> this.bibliotecaService.removerBibliotecaPorId(1L));
+        assertThrows(NoSuchElementException.class, () -> this.bibliotecaService.removerBibliotecaPorId(1L));
     }
 
     @Test
@@ -158,6 +162,7 @@ class BibliotecaServiceImplTest {
 
         assertEquals(listaBibliotecas, resposta);
     }
+
     @Test
     @DisplayName("Deve retornar lista vazia ao listar todas bibliotecas")
     void deveRetornarListaVaziaAoListarTodasBibliotecasCorretamente() {
