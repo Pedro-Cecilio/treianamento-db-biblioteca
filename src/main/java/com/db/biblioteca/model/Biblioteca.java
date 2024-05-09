@@ -17,7 +17,7 @@ public class Biblioteca {
     private String nome;
 
     @OneToMany(mappedBy = "biblioteca", cascade = { CascadeType.REMOVE,
-            CascadeType.PERSIST }, fetch = FetchType.LAZY, orphanRemoval = true)
+            CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Livro> livros = new ArrayList<>();
 
     protected Biblioteca() {

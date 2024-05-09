@@ -46,6 +46,9 @@ public class BibliotecaController {
     @PatchMapping("/{id}/livro")
     public ResponseEntity<String> adicionarLivro(@RequestBody CriarLivroDTO dto, @PathVariable("id") Long id) {
         Livro livro = livroMapper.toLivro(dto);
+        System.out.println(livro.getTitulo());
+        System.out.println(livro.getAutor());
+        System.out.println(livro.getAnoDePublicacao());
         this.bibliotecaService.adicionarLivroNaBiblioteca(id, livro);
         return ResponseEntity.ok().body("Livro adicionado com sucesso!");
     }
