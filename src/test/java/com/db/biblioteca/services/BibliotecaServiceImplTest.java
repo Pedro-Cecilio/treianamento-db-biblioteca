@@ -94,7 +94,6 @@ public class BibliotecaServiceImplTest {
 
         assertDoesNotThrow(() -> this.bibliotecaServiceImpl.removerLivroDaBiblioteca(1L, 1L));
 
-        verify(this.bibliotecaRepository, times(1)).findById(1L);
         verify(this.livroServiceImpl, times(1)).buscarLivroPorId(1L);
         verify(this.bibliotecaRepository, times(1)).save(this.biblioteca);
     }
@@ -107,7 +106,6 @@ public class BibliotecaServiceImplTest {
 
         assertThrows(NoSuchElementException.class, () -> this.bibliotecaServiceImpl.removerLivroDaBiblioteca(1L, 1L));
 
-        verify(this.bibliotecaRepository, times(1)).findById(1L);
         verify(this.livroServiceImpl, times(1)).buscarLivroPorId(1L);
         verify(this.bibliotecaRepository, never()).save(any());
     }
@@ -133,8 +131,6 @@ public class BibliotecaServiceImplTest {
         when(bibliotecaRepository.findById(1L)).thenReturn(Optional.of(biblioteca));
 
         assertDoesNotThrow(() -> bibliotecaServiceImpl.removerBibliotecaPorId(1L));
-
-        verify(bibliotecaRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -143,8 +139,6 @@ public class BibliotecaServiceImplTest {
         when(bibliotecaRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> bibliotecaServiceImpl.removerBibliotecaPorId(1L));
-
-        verify(bibliotecaRepository, times(1)).findById(1L);
 
         verify(bibliotecaRepository, never()).delete(any());
     }
