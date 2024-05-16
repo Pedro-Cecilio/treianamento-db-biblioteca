@@ -2,6 +2,8 @@ package com.db.biblioteca.controllers;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClient.ResponseSpec;
 
 import com.db.biblioteca.mapper.BibliotecaMapper;
 import com.db.biblioteca.mapper.LivroMapper;
@@ -20,6 +23,8 @@ import com.db.biblioteca.model.dto.BibliotecaRespostaDTO;
 import com.db.biblioteca.model.dto.CriarBibliotecaDTO;
 import com.db.biblioteca.model.dto.CriarLivroDTO;
 import com.db.biblioteca.services.BibliotecaService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/bibliotecas")
@@ -37,18 +42,16 @@ public class BibliotecaController {
     }
 
     @PostMapping
-    public BibliotecaRespostaDTO criarBiblioteca(@RequestBody CriarBibliotecaDTO dto) {
+    public ResponseEntity<BibliotecaRespostaDTO> criarBiblioteca(@RequestBody @Valid CriarBibliotecaDTO dto) {
         Biblioteca biblioteca = bibliotecaMapper.toBiblioteca(dto);
         this.bibliotecaService.criarBiblioteca(biblioteca);
-        return bibliotecaMapper.toBibliotecaRespostaDTO(biblioteca);
+        BibliotecaRespostaDTO bibliotecaRespostaDTO = bibliotecaMapper.toBibliotecaRespostaDTO(biblioteca);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bibliotecaRespostaDTO);
     }
 
     @PatchMapping("/{id}/livro")
-    public ResponseEntity<String> adicionarLivro(@RequestBody CriarLivroDTO dto, @PathVariable("id") Long id) {
+    public ResponseEntity<String> adicionarLivro(@RequestBody @Valid CriarLivroDTO dto, @PathVariable("id") Long id) {
         Livro livro = livroMapper.toLivro(dto);
-        System.out.println(livro.getTitulo());
-        System.out.println(livro.getAutor());
-        System.out.println(livro.getAnoDePublicacao());
         this.bibliotecaService.adicionarLivroNaBiblioteca(id, livro);
         return ResponseEntity.ok().body("Livro adicionado com sucesso!");
     }

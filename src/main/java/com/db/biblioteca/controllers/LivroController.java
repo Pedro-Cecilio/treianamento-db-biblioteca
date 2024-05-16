@@ -60,7 +60,7 @@ public class LivroController {
     }
 
     @GetMapping("/biblioteca/{id}")
-    public ResponseEntity<List<LivroRespostaDTO>> buscarLivroPorBibliotecaId(@PathVariable("id") Long id) {
+    public ResponseEntity<List<LivroRespostaDTO>> buscarLivrosPorBibliotecaId(@PathVariable("id") Long id) {
         List<Livro> livros = this.livroService.buscarTodosLivrosPorBibliotecaId(id);
         List<LivroRespostaDTO> resposta = livroMapper.toListaDeLivroToRespostaDTO(livros);
         return ResponseEntity.ok().body(resposta);
@@ -82,8 +82,8 @@ public class LivroController {
 
     @GetMapping("/anoDePublicacao")
     public ResponseEntity<List<LivroRespostaDTO>> buscarLivroPorAnoPublicacao(
-            @RequestParam(required = true) Integer anoPublicacao) {
-        List<Livro> livros = this.livroService.buscarLivrosPorAnoDePublicacao(anoPublicacao);
+            @RequestParam(required = true) Integer anoDePublicacao) {
+        List<Livro> livros = this.livroService.buscarLivrosPorAnoDePublicacao(anoDePublicacao);
         List<LivroRespostaDTO> resposta = livroMapper.toListaDeLivroToRespostaDTO(livros);
         return ResponseEntity.ok().body(resposta);
     }

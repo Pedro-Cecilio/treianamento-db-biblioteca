@@ -3,7 +3,6 @@ package com.db.biblioteca.services;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import com.db.biblioteca.repositories.LivroRepository;
 import com.db.biblioteca.services.impl.LivroServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class LivroServiceImplTest {
+class LivroServiceImplTest {
 
     @InjectMocks
     private LivroServiceImpl livroServiceImpl;
