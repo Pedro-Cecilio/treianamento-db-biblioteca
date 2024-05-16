@@ -1,4 +1,4 @@
-package com.db.biblioteca.controller;
+package com.db.biblioteca.controllers;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
