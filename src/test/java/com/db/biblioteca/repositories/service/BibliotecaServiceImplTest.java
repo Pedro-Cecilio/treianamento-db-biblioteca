@@ -26,8 +26,8 @@ import com.db.biblioteca.model.Livro;
 import com.db.biblioteca.repositories.BibliotecaRepository;
 import com.db.biblioteca.repositories.fixture.BibliotecaFixture;
 import com.db.biblioteca.repositories.fixture.LivroFixture;
-import com.db.biblioteca.service.impl.BibliotecaServiceImpl;
-import com.db.biblioteca.service.impl.LivroServiceImpl;
+import com.db.biblioteca.services.impl.BibliotecaServiceImpl;
+import com.db.biblioteca.services.impl.LivroServiceImpl;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
